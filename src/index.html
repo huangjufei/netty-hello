@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+  <title>WebSocket客户端</title>
+  <script type="text/javascript">
+    function WebSocketTest() {
+      if ("WebSocket" in window) {
+        // 打开一个 web socket
+        var ws = new WebSocket("ws:/localhost:8888/ws");
+        ws.onopen = function () {
+          var data = document.getElementById("message").value;
+          ws.send(data);
+        };
+
+        ws.onmessage = function (evt) {
+          var received_msg = evt.data;
+          document.getElementById("responseContent").value += received_msg + "\n\t";
+        };
+
+        ws.onclose = function () {
+          alert("连接已关闭...");
+        };
+      } else {
+        alert("您的浏览器不支持 WebSocket!");
+      }
+    }
+  </script>
+</head>
+
+<body>
+<form onSubmit="return false;">
+  <input type="text" id="message" value="">
+  <br/>
+  <input type="button" value="发送webSocket请求消息" onClick="WebSocketTest();">
+  <hr color="red"/>
+  <h2>客户端接收的应答消息</h2>
+  <textarea id="responseContent" style="width:1024px; height:300px">
+		</textarea>
+</form>
+</body>
+</html>
